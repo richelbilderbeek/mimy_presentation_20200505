@@ -27,30 +27,33 @@ Testing:
 library(testthat)
 ```
 
+Arms race: detection
+========================================================
+
+![](er_was_eens_het_leven_resized.jpg)
+
 Research question
 ========================================================
 
-For a pathogen, can we find selection on detection?
+Do pathogens evolve to avoid host detection?
 
-```{r, echo=FALSE}
-bbbq::plot_markov_chain_tikz(
-  transition_matrix = matrix(c("no", "no", "yes", "yes"), nrow = 2),
-)
-```
+![](evasion.jpg)
 
-Selection in pathogens
+Natural selection in pathogens
 ========================================================
 
-Parts of pathogens are strongly selected upon [1]
+There are loci that are strongly selected upon [1]
+
 
 ***
 
 ![](F4_400.png)
 
-Host and pathogen arms race?
+No natural selection on host evasion
 ========================================================
 
-No signal of selection detected from a host's immune system [2]
+We cannot detect natural selection on host evasion
+from full genomes [2].
 
 ***
 
@@ -63,13 +66,15 @@ Sure!
  * Vital loci differ between pathogens
  * Selection on detecting rare$^2$ loci is unlikely
 
-∴ Detection of vital loci is unlikely
+Therefore, detection of vital loci is unlikely
 
 Transmembrane helices
 ========================================================
 
- * TMHs are general structures!
- * Can we detect selection on them?
+ * TMHs are general structures that all hosts and pathogens have
+ * Hence, selection on TMHs is more likely
+
+Can we detect this?
 
 ***
 
@@ -78,24 +83,41 @@ Transmembrane helices
 Detect
 ========================================================
 
+Transition|$n_{obs}$|$p$
+----------|---------|----
+D -> D    |?        |?
+D -> U    |?        |?
+U -> D    |?        |?
+U -> U    |?        |?
+
+***
+
+ * $n_{obs}$: number observed
+ * $p$: chance we observe this
+
+If $p < 0.05$, we claim there is selection working upon it
+
+Measure oserved number
+========================================================
+
  * Take a strong dataset
  * Count the state transitions
 
-Transition|Count|Expected
-----------|-----|--------
-D -> D    |350  |?
-D -> U    |200  |?
-U -> D    |100  |?
-U -> U    |350  |?
+Transition|$n_{obs}$|$p$
+----------|---------|---
+D -> D    |350      |?
+D -> U    |200      |?
+U -> D    |100      |?
+U -> U    |350      |?
 
 ***
 
 ![](covid_75.png)
 
-Predict
+Measure the chance we observe this
 ========================================================
 
-Given a (in this case, cherry-picked) focal TMH AA sequence ...
+Given a focal TMH AA sequence ...
 
 ```{r}
 f <- "IIPMVPVTCLFYIMMAFIFI"
@@ -120,18 +142,36 @@ calc_p_det_tmh_mut(f)
 
 We can do that for all TMHs!
 
-Conclusion
+Example results
 ========================================================
 
-Transition|Count|Expected
-----------|-----|--------
-D -> D    |350  |400
-D -> U    |200  |100
-U -> D    |100  | 50
-U -> U    |350  |450
+Transition|$n_{obs}$|$p$
+----------|---------|---
+D -> D    |350      |$0.1$
+D -> U    |200      |$0.0001$
+U -> D    |100      |$0.01$
+U -> U    |350      |$0.2$
 
-Calculate the probability that the observations are
-caused by chance. If unlikely, then selection!
+Selection!
+
+***
+
+Transition|$n_{obs}$|$p$
+----------|---------|---
+D -> D    |350      |$0.7$
+D -> U    |200      |$0.3$
+U -> D    |100      |$0.4$
+U -> U    |350      |$0.6$
+
+No/weak selection
+
+Things left out
+========================================================
+
+ * Calculation
+ * Detection by MHC-I and/or MHC-II
+ * Multiple haplotypes
+ * Also for human and bacterium
 
 Questions
 ========================================================
@@ -290,5 +330,6 @@ References
 Image attribution
 ========================================================
 
- * [1] https://www.studyblue.com/notes/note/n/biological-membranes-and-transport/deck/1550695
- * [2] https://nextstrain.org/ncov/global?l=radial
+ * [1] Il était une fois... la Vie
+ * [2] https://www.studyblue.com/notes/note/n/biological-membranes-and-transport/deck/1550695
+ * [3] https://nextstrain.org/ncov/global?l=radial
