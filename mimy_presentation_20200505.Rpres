@@ -1,9 +1,3 @@
-<style>
-.small-code pre code {
-  font-size: 1em;
-}
-</style>
-
 How to measure selection on pathogen evasion
 ========================================================
 author: Richèl J.C. Bilderbeek
@@ -175,15 +169,24 @@ $\mathcal{H}_1$: Selection!
 Things left out
 ========================================================
 
- * Calculation (see Supplement)
+ * Calculation
  * Multiple haplotypes
  * Also for human and bacterium
  * Detection by MHC-I and/or MHC-II
 
-Questions
+***
+
+![](calculations.jpg)
+
+Questions?
 ========================================================
 
-?
+```
+richel@richelbilderbeek.nl
+```
+
+[https://github.com/richelbilderbeek/mimy_presentation_20200505](https://github.com/richelbilderbeek/mimy_presentation_20200505)
+
 
 Supplementary materials
 ========================================================
