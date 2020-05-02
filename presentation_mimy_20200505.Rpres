@@ -125,7 +125,7 @@ f <- "IIPMVPVTCLFYIMMAFIFI"
 
 ***
 
-... we can predict if it is detected
+... we can predict if it is detected:
 
 ```{r}
 cat(is_detected(f))
@@ -147,23 +147,23 @@ Example results
 
 Transition|$n_{obs}$|$p$
 ----------|---------|---
-D -> D    |350      |$0.1$
-D -> U    |200      |$0.0001$
-U -> D    |100      |$0.01$
-U -> U    |350      |$0.2$
-
-Selection!
-
-***
-
-Transition|$n_{obs}$|$p$
-----------|---------|---
 D -> D    |350      |$0.7$
 D -> U    |200      |$0.3$
 U -> D    |100      |$0.4$
 U -> U    |350      |$0.6$
 
-No/weak selection
+$\mathcal{H}_0$: No/weak selection
+
+***
+
+Transition|$n_{obs}$|$p$
+----------|---------|---
+D -> D    |350      |$0.1$
+D -> U    |200      |$0.0001$
+U -> D    |100      |$0.01$
+U -> U    |350      |$0.2$
+
+$\mathcal{H}_1$: Selection!
 
 Things left out
 ========================================================
@@ -181,65 +181,100 @@ Questions
 Supplementary materials
 ========================================================
 
-Here I show the calculation in more detail.
+Here I show the mathematics in more detail.
 
-Calculation
-========================================================
-
-The chance, $p$, that a mutant is detected, is:
-
-$$
-p = \frac{\sum{r}|d}{\sum{r}}
-$$
-
- * $r$: transition rate
- * $d$: is detected
+ * A. Statistics: chance to observe all mutations
+ * B. Chance to observe one mutation
 
 ***
 
-Mutant |$r$|$d$
--------|---|---
-A      |1  |No
-B      |2  |Yes
-C      |3  |No
+> Yahtzee picture here
 
-$p = \frac{2}{1 + 2 + 3} = \frac{1}{3}$
+A. Goal
+========================================================
 
-Statistics (a Poisson binomial distribution)
+How likely is it,
+that the observed mutations
+are based on chance alone?
+
+***
+
+Transition|$n_{obs}$
+----------|---------
+D -> D    |350
+D -> U    |200
+U -> D    |100
+U -> U    |350
+
+Statistics method
+========================================================
+
+ * Per mutation, calculate its probablity
+ * Calculate the probablity for all mutations to happen
+
+***
+
+![](PoissonBernoulli.jpg)
+
+*Also known as a Poisson binomial distribution!*
+
+Statistics method
 ========================================================
 
 If we observe:
 
 ```{r echo=FALSE}
 df_obs <- data.frame(
-  p = c(0.1, 0.2, 0.3, 1.0),
+  p = c(0.2, 0.3, 0.5, 1.0),
   success = runif(n = 4) < 0.5
 )
 knitr::kable(df_obs)
 ```
 
-Accept if $q < 0.05$.
-
 ***
 
-Chance $q$ to have more than $n$ successes:
+Chance to observe that:
 
 ```{r echo=FALSE}
 n <- seq(0, nrow(df_obs))
 df_exp <- data.frame(
   n = n,
-  q = poisbinom::ppoisbinom(n, pp = df_obs$p, lower_tail = FALSE)
+  q_less = poisbinom::ppoisbinom(n, pp = df_obs$p, lower_tail = TRUE),
+  q_more = poisbinom::ppoisbinom(n - 1, pp = df_obs$p, lower_tail = FALSE)
 )
 knitr::kable(df_exp)
 ```
 
-Stats
+B. Goal
+========================================================
+
+How likely is it,
+that a mutation
+causes a pathogen to
+become/remain un/detected?
+
+***
+
+![](er_was_eens_het_leven_resized.jpg)
+
+Was it detected before the mutation?
 ========================================================
 
 ```{r}
-ps <- seq(0.1, 1.0, by = 0.1)
-poisbinom::ppoisbinom(1, pp = ps, lower_tail = TRUE, log_p = FALSE)
+cat(f)
 ```
+
+```{r}
+cat(is_detected(f))
+```
+
+How many mutants are un/detected?
+========================================================
+
+ 1. Collect all TMH mutants
+ 2. Predict the un/detection
+ 3. Correct for AA transition rates
+
 Predict
 ========================================================
 
@@ -272,60 +307,85 @@ cat(is_tmh(n))
 Predict
 ========================================================
 
-... if it is detected ...
+and if it is detected!
 
 ```{r}
 cat(is_detected(n))
 ```
 
+Simply count the number of un/detected neighbours!
+
 ***
 
-... and how (relatively) likely the mutation was:
+> One does not simply count the number of un/detected neighbours!
+
+Transition rates
+========================================================
+
+Not all mutations are equally likely.
+
+Transition matrix from [3]
+
+***
+
+```{r echo=FALSE}
+get_tr <- get_transition_rate
+```
 
 ```{r}
-cat(
-get_transition_rate(
-  f, n))
+cat(get_tr("A", "W"))
+cat(get_tr("A", "V"))
 ```
 
 
 Predict
 ========================================================
 
-For one mutation, we know the AAs transition rates:
+Take transition rates into account:
 
 ```{r}
-get_transition_rate("A", "W") # Uncommon
-get_transition_rate("A", "T") # Common
+cat(f)
 ```
 
-Predict
+***
+
+```{r}
+cat(n)
+```
+
+```{r}
+cat(get_tr(f, n))
+```
+
+Calculation
 ========================================================
 
+The chance, $p$, that a mutant is detected, is:
 
+$$
+p = \frac{\sum{r}|d}{\sum{r}}
+$$
 
-Detect
-========================================================
+ * $r$: transition rate
+ * $d$: is detected
 
- * Calculate the expected number of mutations and state transitions by chance
- * Compare if observations were likely due to chance
+***
 
-# Chance for state change
-# * Chance for AA start -> AA end mutation
-# * Chance for AA start state -> AA end state, given it remains a TMH
+Mutant |$r$|$d$
+-------|---|---
+A      |1  |No
+B      |2  |Yes
+C      |3  |No
 
-# Possible results
-# * First to detect selection by a host
-# * There is no selection by a host on TMHs
-#   (maybe on beta turns?)
+$p = \frac{2}{1 + 2 + 3} = \frac{1}{3}$
 
-# Ref
 
 References
 ========================================================
 
  * [1] Velazquez-Salinas, Lauro, et al. "Positive selection of ORF3a and ORF8 genes drives the evolution of SARS-CoV-2 during the 2020 COVID-19 pandemic." bioRxiv (2020).
  * [2] Han, Alvin X., Sebastian Maurer-Stroh, and Colin A. Russell. "Individual immune selection pressure has limited impact on seasonal influenza virus evolution." Nature ecology & evolution 3.2 (2019): 302-311.
+ * [3] FLU
 
 Image attribution
 ========================================================
