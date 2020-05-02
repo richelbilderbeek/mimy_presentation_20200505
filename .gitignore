@@ -39,3 +39,5 @@ vignettes/*.pdf
 .Renviron
 presentation_mimy_20200505-figure/
 presentation_mimy_20200505.md
+presentation_mimy_20200505-cache/
+presentation_mimy_20200505-figure/
