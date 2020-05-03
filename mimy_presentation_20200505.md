@@ -255,7 +255,7 @@ If we observe:
 |---:|:-------|
 | 0.2|FALSE   |
 | 0.3|TRUE    |
-| 0.5|TRUE    |
+| 0.5|FALSE   |
 | 1.0|FALSE   |
 
 ***
@@ -324,7 +324,7 @@ cat(sample(ns, size = 4))
 ```
 
 ```
-IIPMVPVTCLFYIMMAYIFI IIPMVPVTCLFYIMMALIFI IIVMVPVTCLFYIMMAFIFI MIPMVPVTCLFYIMMAFIFI
+IIPMVPVTCFFYIMMAFIFI IIPMVPVTCLFYRMMAFIFI IIPMVPVFCLFYIMMAFIFI IIPMVPYTCLFYIMMAFIFI
 ```
 
 Predict
@@ -339,7 +339,7 @@ cat(n)
 ```
 
 ```
-IIPMVPVTCLFYIFMAFIFI
+IIPMVPVTCLFYCMMAFIFI
 ```
 
 ***
@@ -352,7 +352,7 @@ cat(is_tmh(n))
 ```
 
 ```
-TRUE
+FALSE
 ```
 
 Predict
@@ -426,7 +426,7 @@ cat(n)
 ```
 
 ```
-IIPMVPVTCLFYIFMAFIFI
+IIPMVPVTCLFYCMMAFIFI
 ```
 
 
@@ -435,7 +435,7 @@ cat(get_tr(f, n))
 ```
 
 ```
-0.005613627
+1.190624
 ```
 
 Calculation
