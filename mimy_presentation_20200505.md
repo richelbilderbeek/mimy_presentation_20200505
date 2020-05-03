@@ -14,14 +14,18 @@ The Bianchi, Bilderbeek, Bogaart Question:
 
 ```r
 library(bbbq)
+library(testthat)
 ```
-
-Testing:
 
 
 ```r
-library(testthat)
+cat(1 + 1)
 ```
+
+```
+2
+```
+
 
 ***
 
@@ -251,8 +255,8 @@ If we observe:
 |---:|:-------|
 | 0.2|FALSE   |
 | 0.3|TRUE    |
-| 0.5|FALSE   |
-| 1.0|TRUE    |
+| 0.5|TRUE    |
+| 1.0|FALSE   |
 
 ***
 
@@ -320,7 +324,7 @@ cat(sample(ns, size = 4))
 ```
 
 ```
-IIPMVPVTCLFYIMMAFIDI IIPMVPVTCTFYIMMAFIFI IIPMVPVTCLFYIMMAKIFI IFPMVPVTCLFYIMMAFIFI
+IIPMVPVTCLFYIMMAYIFI IIPMVPVTCLFYIMMALIFI IIVMVPVTCLFYIMMAFIFI MIPMVPVTCLFYIMMAFIFI
 ```
 
 Predict
@@ -335,7 +339,7 @@ cat(n)
 ```
 
 ```
-IIPMVPVRCLFYIMMAFIFI
+IIPMVPVTCLFYIFMAFIFI
 ```
 
 ***
@@ -348,7 +352,7 @@ cat(is_tmh(n))
 ```
 
 ```
-FALSE
+TRUE
 ```
 
 Predict
@@ -422,7 +426,7 @@ cat(n)
 ```
 
 ```
-IIPMVPVRCLFYIMMAFIFI
+IIPMVPVTCLFYIFMAFIFI
 ```
 
 
@@ -431,7 +435,7 @@ cat(get_tr(f, n))
 ```
 
 ```
-0.5422511
+0.005613627
 ```
 
 Calculation

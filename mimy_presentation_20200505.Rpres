@@ -13,13 +13,13 @@ The Bianchi, Bilderbeek, Bogaart Question:
 
 ```{r}
 library(bbbq)
-```
-
-Testing:
-
-```{r}
 library(testthat)
 ```
+
+```{r}
+cat(1 + 1)
+```
+
 
 ***
 
