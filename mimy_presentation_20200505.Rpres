@@ -138,8 +138,10 @@ Predict
 And we can predict the chance a mutant will be detected:
 
 ```{r cache=TRUE}
-calc_p_det_tmh_mut(f)
+cat(calc_p_det_tmh_mut(f))
 ```
+
+Thus, 3% chance of losing detection.
 
 We can do that for all TMHs!
 
@@ -171,8 +173,8 @@ Things left out
 
  * Calculation
  * Multiple haplotypes
- * Also for human and bacterium
  * Detection by MHC-I and/or MHC-II
+ * Also for human and bacterium
 
 ***
 
